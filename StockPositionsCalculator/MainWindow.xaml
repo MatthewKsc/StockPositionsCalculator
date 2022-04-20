@@ -1,0 +1,135 @@
+﻿<Window x:Class="StockPositionsCalculator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StockPositionsCalculator"
+        xmlns:System="clr-namespace:System;assembly=mscorlib"
+        xmlns:LeverageAlians="clr-namespace:StockPositionsCalculator.Models"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="400">
+
+    <Window.Resources>
+        <ObjectDataProvider x:Key="LeverageTypeEnumData" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="LeverageAlians:TargetLeverageType"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+
+        <Style x:Key="DefaultGroupBox" TargetType="{x:Type GroupBox}">
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontFamily" Value="Tahoma"/>
+        </Style>
+
+        <Style x:Key="DefaultText" TargetType="{x:Type TextBlock}">
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontFamily" Value="Tahoma"/>
+        </Style>
+
+        <Style x:Key="CalculateButton" TargetType="{x:Type Button}">
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="Width" Value="175"/>
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="Background" Value="Green"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontFamily" Value="Tahoma"/>
+        </Style>
+
+        <Style x:Key="DefaultComboBox" TargetType="ComboBox">
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontFamily" Value="Tahoma"/>
+            <Setter Property="MaxWidth" Value="250"/>
+            <Setter Property="Margin" Value="0,10,0,10"/>
+        </Style>
+    </Window.Resources>
+    
+    <Grid>
+        <TabControl>
+            <TabItem>
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Position TP/SL"/>
+                    </StackPanel>
+                </TabItem.Header>
+                <TabItem.Content>
+                    <StackPanel>
+
+                        <TextBlock Style="{StaticResource DefaultText}"
+                                   HorizontalAlignment="Center" 
+                                   Text="Calculate your TP/SL for long or short position"/>
+                        
+                        <ComboBox Name="LeverageTypeBox"
+                                  ItemsSource="{Binding Source={StaticResource LeverageTypeEnumData}}"
+                                  Style="{StaticResource DefaultComboBox}"/>
+
+                        <GroupBox HorizontalAlignment="Center" Style="{StaticResource DefaultGroupBox}">
+                            <GroupBox.Header>
+                                <TextBlock Text="Starting Price:" />
+                            </GroupBox.Header>
+                            <GroupBox.Content>
+                                <TextBox Name="ProvidedUserPrice"/>
+                            </GroupBox.Content>
+                        </GroupBox>
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+
+                            <GroupBox Style="{StaticResource DefaultGroupBox}">
+                                <GroupBox.Header>
+                                    <TextBlock Text="Stop Loss Procentage:" />
+                                </GroupBox.Header>
+                                <GroupBox.Content>
+                                    <TextBox Name="StopLossProcentage"/>
+                                </GroupBox.Content>
+                            </GroupBox>
+
+                            <GroupBox Style="{StaticResource DefaultGroupBox}">
+                                <GroupBox.Header>
+                                    <TextBlock Text="Take Profit Procentage:"/>
+                                </GroupBox.Header>
+                                <GroupBox.Content>
+                                    <TextBox Name="TakeProfitProcentage"/>
+                                </GroupBox.Content>
+                            </GroupBox>
+
+                        </StackPanel>
+
+                        <Button Style="{StaticResource CalculateButton}" Content="Calculate Position" Margin="0,10,0,10" Click="Button_Click"/>
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+
+                            <GroupBox Style="{StaticResource DefaultGroupBox}">
+                                <GroupBox.Header>
+                                    <TextBlock Text="Stop Loss Price:" />
+                                </GroupBox.Header>
+                                <GroupBox.Content>
+                                    <TextBox IsReadOnly="True" Name="StopLossPrice"/>
+                                </GroupBox.Content>
+                            </GroupBox>
+
+                            <GroupBox Style="{StaticResource DefaultGroupBox}">
+                                <GroupBox.Header>
+                                    <TextBlock Text="Take Profit Price:"/>
+                                </GroupBox.Header>
+                                <GroupBox.Content>
+                                    <TextBox IsReadOnly="True" Name="TakeProfitPrice"/>
+                                </GroupBox.Content>
+                            </GroupBox>
+                            
+                        </StackPanel>
+                    </StackPanel>
+                </TabItem.Content>
+            </TabItem>
+            <TabItem>
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Leverage Target Profit/Loss"/>
+                    </StackPanel>
+                </TabItem.Header>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
